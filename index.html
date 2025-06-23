@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Video Compressor</title>
+    <title>Smart Video Compressor</title>
     <style>
         :root {
             --primary: #3498db;
             --secondary: #2ecc71;
             --error: #e74c3c;
+            --warning: #f39c12;
             --light-gray: #ecf0f1;
             --dark-gray: #7f8c8d;
             --text: #333;
@@ -192,16 +193,22 @@
             display: none;
         }
         .resolution-warning {
-            color: #f39c12;
+            color: var(--warning);
             font-size: 0.8rem;
             margin-top: 0.25rem;
             display: none;
+        }
+        .quality-tip {
+            color: var(--dark-gray);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Video Compressor</h1>
+        <h1>Smart Video Compressor</h1>
         <div class="upload-area" id="dropZone">
             <input type="file" id="fileInput" accept="video/*">
             <p>Drag & drop your video here or click to browse</p>
@@ -215,6 +222,15 @@
         
         <div class="controls">
             <div class="control-group">
+                <label for="qualityMode">Quality Mode:</label>
+                <select id="qualityMode">
+                    <option value="auto" selected>Auto (Recommended)</option>
+                    <option value="manual">Manual</option>
+                </select>
+                <div class="quality-tip" id="qualityTip">Auto mode adjusts settings for optimal clarity</div>
+            </div>
+            
+            <div class="control-group" id="manualQualityGroup" style="display: none;">
                 <label for="crf">Quality (CRF):</label>
                 <input type="range" id="crf" min="18" max="28" value="23">
                 <span id="crfValue">23</span>
@@ -248,7 +264,7 @@
                     <option value="426x240">240p (426×240)</option>
                     <option value="custom">Custom</option>
                 </select>
-                <div class="resolution-warning" id="upscaleWarning">Warning: This resolution is larger than your original video</div>
+                <div class="resolution-warning" id="upscaleWarning">Warning: Upscaling may reduce quality</div>
             </div>
             
             <div class="control-group" id="customResolutionGroup">
@@ -281,6 +297,4 @@
     </div>
     
     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
-    <script src="script.js"></script>
-</body>
-                  </html>
+    <script src="script.js"/>
